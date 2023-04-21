@@ -12,7 +12,7 @@ def load_data():
 
 # Select the column to base the recommendation on
 def select_column(df):
-    columns = df.columns
+    columns = ["trip id", "Driver_ID", "Time_Driven", "Distance", "Total_Fare", "rating", "experience"]
     selected_column = st.selectbox("Select the column to base the recommendation on", columns)
     return selected_column
 
@@ -50,20 +50,24 @@ def recommend_drivers(df, column):
 def main():
     st.title("Driver Recommendation App")
     st.subheader("Select the dataset and the column to base the recommendation on")
-    
-    # Load the dataset
-    df = load_data()
-    
-    # Select the column to base the recommendation on
-    column = select_column(df)
-    
-    # Recommend the best drivers
-    drivers = recommend_drivers(df, column)
-    
-    # Display the recommended drivers to the user
-    st.subheader("Recommended drivers ID")
-    for driver in drivers:
-        st.write(driver)
+    try:
+        # Load the dataset
+        df = load_data()
+        
+        # Select the column to base the recommendation on
+        column = select_column(df)
+        
+        # Recommend the best drivers
+        drivers = recommend_drivers(df, column)
+        # Display the recommended drivers to the user
+        st.subheader("Recommended drivers ID")
+        for row in drivers:
+        
+            st.write( "Driver_ID:  ",row)
+    except ValueError:
+        st.write('string type column are not allowed')
+    except :
+        st.write('upload the document')
 
 if __name__ == "__main__":
     main()
